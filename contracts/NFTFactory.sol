@@ -29,7 +29,6 @@ contract FairNFT is ERC721, Ownable, ReentrancyGuard {
     uint8 public MAX_WHITELISTED_ADDRESSES;
     uint8 public numWhitelistedAddresses;
     address tokenManager;
-    TokenContract public tokenContract;
 
     // ======= MODIFIERS ========== //
 
@@ -197,10 +196,9 @@ contract FairNFT is ERC721, Ownable, ReentrancyGuard {
         require(sent, "Failed to withdraw");
     }
 
-    function emergencySetStartingIndex() external onlyOwner {}
-
-    function setTokenContract(address _contract) external onlyOwner {
-        tokenContract = _contract;
+    function emergencySetStartingIndex() external onlyOwner {
+        require(startingIndex == 0, "Starting index is set already");
+        startingIndexBlock = block.number;
     }
 
     // ======= HELPER FUNCTIONS ======== //
